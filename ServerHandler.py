@@ -3,6 +3,7 @@ import socketserver
 import sys
 import time
 
+import Network
 
 # Server handler
 class ServerHandler(http.server.SimpleHTTPRequestHandler):
@@ -12,6 +13,6 @@ class ServerHandler(http.server.SimpleHTTPRequestHandler):
 
 
 # Loop until shutdown
-httpd = socketserver.TCPServer(("", 8080), ServerHandler)
+httpd = socketserver.TCPServer(("", Network.ServerPort), ServerHandler)
 while True:
     httpd.handle_request()

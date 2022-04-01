@@ -1,3 +1,4 @@
+import os
 from mininet.cli import CLI
 from mininet.net import Mininet
 from mininet.node import Controller, RemoteController, OVSController
@@ -9,22 +10,26 @@ from mininet.link import TCLink, Intf
 
 
 # Network address details
-Servers = ["10.0.0.5", "10.0.0.6"]
+Servers = ["10.0.0.1", "10.0.0.2"]
 ServerPort = 8080
-LoadBalacingNodes = ["10.0.0.4"]
+LoadBalacingNodes = ["10.0.0.3"]
 LoadBalancingPort = 9090
-Clients = ["10.0.0.1", "10.0.0.2", "10.0.0.3"]
+LoadBalancingAlgorithms = ["rr", "random", "none"]
+Clients = ["10.0.0.4", "10.0.0.5", "10.0.0.6"]
 
 
 # Adds custom server and load balancing handlers
-def AddCustomHandlers(net):
+def AddCustomHandlers(net, lbAlgorithm):
     
-    # Setup server handlers
-    net.get("serv1").sendCmd("python ./ServerHandler.py &")
-    net.get("serv2").sendCmd("python ./ServerHandler.py &")
+    # Setup server handlers in the background
+    serverHandlerScriptPath = os.path.join(os.path.dirname(__file__), "ServerHandler.py")
+    net.get("serv1").sendCmd("python {} &".format(serverHandlerScriptPath))
+    net.get("serv2").sendCmd("python {} &".format(serverHandlerScriptPath))
 
-    # Setup load balancing node - ToDo - from args
-    net.get("lb").sendCmd("python ../LoadBalancingNode.py rr &")
+    # Setup load balancing node in the background
+    loadBalancingNodeScriptPath = os.path.join(os.path.dirname(__file__), "LoadBalancingNode.py")
+    net.get("lb").sendCmd("python {} {} &".format(loadBalancingNodeScriptPath, lbAlgorithm))
+    
 
 
 # The code creates a network with 3 clients, 1 load balancer, 2 servers and 1 switch.
@@ -32,7 +37,7 @@ def AddCustomHandlers(net):
 # The switch is connected to the servers with a bandwidth of 4Mbps.
 # The switch is connected to the load balancer with a bandwidth of 10Mbps.
 # The switch is connected to the controller with a bandwidth of 10Mbps.
-def CreateStarNetworkTopology(net):
+def CreateStarNetworkTopology(net, lbAlgorithm):
 
     # Creating star network topology
     info( '*** Creating star network topology...\n' )
@@ -92,15 +97,14 @@ def CreateStarNetworkTopology(net):
     net.get('s1').start([con1])
 
     # Add custom handlers
-    AddCustomHandlers(net)
+    AddCustomHandlers(net, lbAlgorithm)
     
 
-# The code creates a network with 3 clients, 1 load balancer, 2 servers and 1 switch.
+# The code creates a network with 3 clients, 1 load balancer, 2 servers and 3 switches.
 # The clients are connected to the switch with a bandwidth of 1Mbps.
-# The switch is connected to the servers with a bandwidth of 4Mbps.
+# The switch is connected to the servers with a bandwidth of 10Mbps.
 # The switch is connected to the load balancer with a bandwidth of 10Mbps.
-# The switch is connected to the controller with a bandwidth of 10Mbps.
-def CreateTreeNetworkTopology(net):
+def CreateTreeNetworkTopology(net, lbAlgorithm):
 
     # Creating tree network topology
     info( '*** Creating tree network topology...\n' )
@@ -179,4 +183,4 @@ def CreateTreeNetworkTopology(net):
     net.get('s3').start([con3])
 
     # Add custom handlers
-    AddCustomHandlers(net)
+    AddCustomHandlers(net, lbAlgorithm)
