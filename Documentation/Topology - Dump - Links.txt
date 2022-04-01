@@ -1,0 +1,42 @@
+Tree Dump:
+<Host serv1: serv1-eth0:10.0.0.1 pid=17216>
+<Host serv2: serv2-eth0:10.0.0.2 pid=17219>
+<Host lb: lb-eth0:10.0.0.3 pid=17252>
+<Host c1: c1-eth0:10.0.0.4 pid=17271>
+<Host c2: c2-eth0:10.0.0.5 pid=17273>
+<Host c3: c3-eth0:10.0.0.6 pid=17275>
+<OVSSwitch s1: lo:127.0.0.1,s1-eth1:None,s1-eth2:None,s1-eth3:None pid=17165>
+<OVSSwitch s2: lo:127.0.0.1,s2-eth1:None,s2-eth2:None pid=17168>
+<OVSSwitch s3: lo:127.0.0.1,s3-eth1:None,s3-eth2:None,s3-eth3:None,s3-eth4:None,s3-eth5:None pid=17171>
+<Controller con1: 127.0.0.1:6633 pid=17147>
+<Controller con2: 127.0.0.1:6633 pid=17152>
+<Controller con3: 127.0.0.1:6633 pid=17157>
+
+Tree Links:
+s1-eth1<->s3-eth1 (OK OK)
+s2-eth1<->s3-eth2 (OK OK)
+serv1-eth0<->s3-eth3 (OK OK)
+serv2-eth0<->s3-eth4 (OK OK)
+lb-eth0<->s3-eth5 (OK OK)
+c1-eth0<->s1-eth2 (OK OK)
+c2-eth0<->s1-eth3 (OK OK)
+c3-eth0<->s2-eth2 (OK OK)
+
+
+Star Dump:
+<Host serv1: serv1-eth0:10.0.0.1 pid=17637>
+<Host serv2: serv2-eth0:10.0.0.2 pid=17639>
+<Host lb: lb-eth0:10.0.0.3 pid=17675>
+<Host c1: c1-eth0:10.0.0.4 pid=17694>
+<Host c2: c2-eth0:10.0.0.5 pid=17696>
+<Host c3: c3-eth0:10.0.0.6 pid=17698>
+<OVSSwitch s1: lo:127.0.0.1,s1-eth1:None,s1-eth2:None,s1-eth3:None,s1-eth4:None,s1-eth5:None,s1-eth6:None pid=17632>
+<Controller con1: 127.0.0.1:6633 pid=17624>
+
+Star Links:
+serv1-eth0<->s1-eth1 (OK OK)
+serv2-eth0<->s1-eth2 (OK OK)
+lb-eth0<->s1-eth3 (OK OK)
+c1-eth0<->s1-eth4 (OK OK)
+c2-eth0<->s1-eth5 (OK OK)
+c3-eth0<->s1-eth6 (OK OK)

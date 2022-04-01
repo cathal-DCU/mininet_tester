@@ -1,0 +1,13 @@
+Run tests
+$ sudo python /vagrant/repo/LB.py tree rr
+$ sudo python /vagrant/repo/LB.py tree random
+$ sudo python /vagrant/repo/LB.py tree none
+$ sudo python /vagrant/repo/LB.py star rr
+$ sudo python /vagrant/repo/LB.py star random
+$ sudo python /vagrant/repo/LB.py star none
+
+Mininet cleanup - call between each test
+sudo mn -c
+
+Copy log folder to local machine - executed from local machine:
+scp -P 2222 -r mininet@localhost:/home/mininet/log .
